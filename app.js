@@ -1,49 +1,77 @@
-
-/****************************cw #15 */
-//input: ["lmn", "d", "d", "lmn", "a", "lmn", "a", "bc"]
-//output: lmn -> 3
-//        a -> 2
-//        d -> 2
-//        bc -> 1
-function displayOccurrences(arr) {
-        //const res = {};
-        // for (let i = 0; i < array.length; i++) {
-        //         if (res[array[i]] === undefined) {
-        //                 //string as content of array[i] occures first time
-        //                 res[array[i]] = 1;
-        //         } else {
-        //                 res[array[i]] = res[array[i]] + 1;
-        //         }
-        // }
-        const res = arr.reduce(function(prev, cur) {
-                prev[cur] = (prev[cur] || 0) + 1;
-                return prev;
-              },{});
-        //console.log(res) // -> intermediate debug log
-        Object.entries(res).sort((e1, e2) => {
-                const res = e2[1] - e1[1];
-                return res === 0 ? e1[0].localeCompare(e2[0]) :  res;
-        }).forEach(e => console.log(`${e[0]} -> ${e[1]}`))
-
-
+const circle = {radius: 20, square: function() {
+        return 3.14 * (this.radius ** 2)
+}, perimeter: () => 2 * 3.14 * this.radius,
+toString: function(){
+        return `radious of this circle is ${this.radius}`
+}};
+console.log(`square=${circle.square()}, perimeter=${circle.perimeter()}`); 
+//circle.square will be converted to square(circle) where circle as argument value,
+// "this" is the hidden parameter in the function 
+// in any arrow function there is no "this"
+function square(circle) {
+        return 3.14 * (circle.radius ** 2);
 }
-//const ar = ["bc", "lmn", "d", "d", "lmn", "a", "lmn", "a"];
-//displayOccurrences(ar);
+console.log(`circle: ${circle}`)
+const circle1 = {radius: 20,  perimeter: function() {
+                return 2 * 3.14 * this.radius}
+        ,
+        toString: function(){
+                return `radious of this circle is ${this.radius}`
+        }};
+        //circle1.square(); error because the method square is not defined inside object circle1
+        function Circle(radius) {
+                this.radius = radius;
+        }
+        Circle.prototype.square = function() {
+                return 3.14 * (this.radius ** 2);  
+        }
+        Circle.prototype.perimeter = function() {
+                return 2 * 3.14 * this.radius
+        }
+        Circle.prototype.toString = function() {
+                return `radius of this circle is ${this.radius}`
+        }
+        const circle10 = new Circle(10);
+        /*******************************************************HW #16 definition task 1 */
+//Write constructor Deferred
+        //         const d = new Deferred()
+// d.then(function(res){ console.log('1 ', res); return 'a'; });
 
-// //examples:
-// // const arr = [6.4, 7.3, 6.5, 6.9];
-// //const statistics = countBy(arr, element => Math.floor(element))
-// //result: statistics -> {"6": 3, "7":1}
-const arr = [6.4, 7.3, 6.5, 6.9];
-const newArr = arr.map(Math.floor);
-//console.log(newArr);
-displayOccurrences(newArr);
+// d.then(function(res){ console.log('2 ', res); return 'b'; });
 
-const arr = ['abcd', 'lmnr', 'ab', 'dddd'];
+// d.then(function(res){ console.log('3 ', res); return 'c'; });
+// d.resolve('hello');
+//Output: 
+//1 hello
+//2 a
+//3 b
+/********************************************************* */
+/*******************************************HW #16 definition task2 */
+//write constructor MyArray
+//const myArray = new MyArray(10);
+//myArray.get(index) - result 10
+//write method get getting an index value and returning common value
+// (set in constructor)
+//myArray.set(index, value); 
+//write method set that sets a given value at a given index
+//myArray.setValue(value) - sets new value in all elements of myArray
+//Example:
+// const myArray = new MyArray(10);
+// console.log(myArray.get(100)) // displayed out 10
+// myArray.set(100, 500)//sets 500 at index 100
+// console.log(myArray.get(200)) //displayed out 10
+// console.log(myArray.get(100)) //displayed out 500
+// myArray.setValue(300);
+// console.log(myArray.get(100)) //displayed out 300
+// console.log(myArray.get(200)) //displayed out 300
 
-// //const statistics = countBy(arr, element => element.length)
-// //result: statistics -> {"4": 3, "2":1}
-// //const arr = [{age: 25, id: 123, name: 'Vasya'},{age: 50, id: 123, name: 'Vasya'},
-// // {age: 25, id: 123, name: 'Vasya'},{age: 70, id: 123, name: 'Vasya'}  ]
-// //const statistics = countBy(arr, element -> element.age)
-// //result statistics -> {"25":2, "50":1, "70":1}
+/***************************************************************************** */
+Array.prototype.filter = function(callbackPredicate) {
+        console.log('Tel-Ran copyright')
+        const res = []
+       this.forEach((n, i, a) => callbackPredicate(n, i, a) && res.push(n));
+       return res;
+}
+const ar = [1, 2, 4, 5, 100];
+ar.filter(n => n % 2 !== 0).forEach(n => console.log(n));
+
